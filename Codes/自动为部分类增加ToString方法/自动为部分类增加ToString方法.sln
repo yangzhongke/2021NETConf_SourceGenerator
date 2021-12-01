@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "自动为部分类增加ToString方法", "自动为部分类增加ToString方法\自动为部分类增加ToString方法.csproj", "{1973AFCD-06AB-4190-9F5F-2AF9570C75E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleTest1", "ConsoleTest1\ConsoleTest1.csproj", "{41369812-46E3-4198-B513-E4527F815283}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1973AFCD-06AB-4190-9F5F-2AF9570C75E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1973AFCD-06AB-4190-9F5F-2AF9570C75E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1973AFCD-06AB-4190-9F5F-2AF9570C75E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1973AFCD-06AB-4190-9F5F-2AF9570C75E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41369812-46E3-4198-B513-E4527F815283}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41369812-46E3-4198-B513-E4527F815283}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41369812-46E3-4198-B513-E4527F815283}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41369812-46E3-4198-B513-E4527F815283}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8DA0873C-D94F-4510-A37D-CEE233AA94AB}
+	EndGlobalSection
+EndGlobal

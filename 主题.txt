@@ -1,0 +1,10 @@
+会写代码的代码：Source Generator如何改变世界
+
+1、介绍.NET中的Source Generator；
+2、Source Generator的好处：把IL前移到编译阶段，把缓慢的加载让编译器完成；
+3、介绍Source Generator可以解决哪些行业问题：基础应用、行业DSL。
+可以用非cs生成cs，比如settings文件、xaml文件、cshtml文件
+4、讲解Source Generator基础；
+5、讲解Roslyn基础和开发技巧；
+6、分析一个用Source Generator实现的类似AutoMapper的工具。
+7、案例畅想：Refit restservice
