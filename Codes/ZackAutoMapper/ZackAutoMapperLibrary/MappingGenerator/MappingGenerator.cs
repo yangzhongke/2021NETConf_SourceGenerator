@@ -11,7 +11,7 @@ public class MappingGenerator : ISourceGenerator
     public void Execute(GeneratorExecutionContext context)
     {
         var syntaxReceiver = context.SyntaxReceiver as SyntaxReceiverCreatorClass;
-        if(syntaxReceiver==null)
+        if (syntaxReceiver == null)
         {
             return;
         }
@@ -26,9 +26,9 @@ public class MappingGenerator : ISourceGenerator
 
             //IMapper<TestClass1, TestClass2> 
             var typedSymbolOfIMapper = typedSymbolMapperClass.AllInterfaces.Single();
-            var genericTypesOfIMapper=typedSymbolOfIMapper.TypeArguments;
+            var genericTypesOfIMapper = typedSymbolOfIMapper.TypeArguments;
             Debug.Assert(genericTypesOfIMapper.Count() == 2);
-            
+
             ITypeSymbol typedSymbolSource = genericTypesOfIMapper.ElementAt(0);
             ITypeSymbol typedSymbolDest = genericTypesOfIMapper.ElementAt(1);
 
@@ -37,9 +37,9 @@ public class MappingGenerator : ISourceGenerator
             sb.Append($"partial class {clzNameOfMapperClass}")
                 .AppendLine("{");
 
-            sb.Append($"public {typedSymbolDest} Map({typedSymbolSource} src)").AppendLine("{");  
+            sb.Append($"public {typedSymbolDest} Map({typedSymbolSource} src)").AppendLine("{");
 
-            sb.AppendLine(BuildMapMethodBody(typedSymbolSource,typedSymbolDest));
+            sb.AppendLine(BuildMapMethodBody(typedSymbolSource, typedSymbolDest));
 
             sb.AppendLine(" }");
             sb.AppendLine("}");
@@ -53,12 +53,12 @@ public class MappingGenerator : ISourceGenerator
         var destProps = typedSymbolDest.GetMembers().Where(m => m.Kind == SymbolKind.Property);
         //get the shared properties by Source type and dest type.
         //We cannot use srcProps.Intersect(destProps,...); see https://github.com/dotnet/roslyn-analyzers/issues/3427
-        var sharedPropNames = srcProps.Select(p=>p.Name).Intersect(destProps.Select(p => p.Name));
-        var sharedProps = srcProps.Where(p=>sharedPropNames.Contains(p.Name));
+        var sharedPropNames = srcProps.Select(p => p.Name).Intersect(destProps.Select(p => p.Name));
+        var sharedProps = srcProps.Where(p => sharedPropNames.Contains(p.Name));
 
         StringBuilder sb = new StringBuilder();
         sb.AppendLine($"{typedSymbolDest} dest = new();");
-        foreach(var prop in sharedProps)
+        foreach (var prop in sharedProps)
         {
             sb.AppendLine($"dest.{prop.Name}=src.{prop.Name};");
         }
@@ -68,14 +68,17 @@ public class MappingGenerator : ISourceGenerator
 
     private static INamedTypeSymbol? FindTypeSymbol(Compilation compilation, BaseTypeDeclarationSyntax node)
     {
-        foreach(var syntaxTree in compilation.SyntaxTrees)
+        foreach (var syntaxTree in compilation.SyntaxTrees)
         {
-            var semanticModel = compilation.GetSemanticModel(syntaxTree);
-            if(semanticModel==null)
+            if (syntaxTree.GetRoot().DescendantNodes().Any(x => x.IsKind(SyntaxKind.SimpleBaseType)))
             {
-                continue;
-            }            
-            return semanticModel.GetDeclaredSymbol(node);
+                var semanticModel = compilation.GetSemanticModel(syntaxTree);
+                if (semanticModel == null)
+                {
+                    continue;
+                }
+                return semanticModel.GetDeclaredSymbol(node);
+            }
         }
         return null;
     }
@@ -83,10 +86,10 @@ public class MappingGenerator : ISourceGenerator
     public void Initialize(GeneratorInitializationContext context)
     {
 #if DEBUG
-            if (!Debugger.IsAttached)
-            {
-                //Debugger.Launch();
-            }
+        if (!Debugger.IsAttached)
+        {
+            //Debugger.Launch();
+        }
 #endif
         Debug.WriteLine("Initalize code generator");
         // No initialization required for this one
@@ -103,16 +106,16 @@ public class SyntaxReceiverCreatorClass : ISyntaxReceiver
     {
         //pick up all the paritial classes which implement IMapper.
         var classDeclarationNode = syntaxNode as ClassDeclarationSyntax;
-        if (classDeclarationNode == null|| classDeclarationNode.BaseList==null)
+        if (classDeclarationNode == null || classDeclarationNode.BaseList == null)
         {
             return;
         }
-        if(!classDeclarationNode.Modifiers.Select(m=>m.ValueText).Contains("partial"))
+        if (!classDeclarationNode.Modifiers.Select(m => m.ValueText).Contains("partial"))
         {
             return;
         }
         BaseTypeSyntax baseType = classDeclarationNode.BaseList.Types.FirstOrDefault();
-        if(baseType == null)
+        if (baseType == null)
         {
             return;
         }
@@ -121,12 +124,12 @@ public class SyntaxReceiverCreatorClass : ISyntaxReceiver
         {
             return;
         }
-        if(genericName.Identifier.ValueText!="IMapper")
+        if (genericName.Identifier.ValueText != "IMapper")
         {
             return;
         }
         var genericTypes = genericName.DescendantNodes().OfType<IdentifierNameSyntax>();
-        if(genericTypes.Count()!=2)
+        if (genericTypes.Count() != 2)
         {
             return;
         }
